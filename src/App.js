@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { useState, useEffect } from 'react';
+import CptButton from './components/CptButton'
 
 function App() {
-  return (
+  const [compteur, setCompteur] = useState(null)
+
+  useEffect(() => {
+      if(compteur === null){
+          // je simule l'appel api avec setTimeout
+          setTimeout(()=>{
+              setCompteur(Math.floor(Math.random() * 100))
+          }, 2000)
+      }
+  }, [])
+
+  return ( compteur !== null ? (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <CptButton action='-' content={compteur - 1} set={setCompteur}/>
+        {compteur}
+        <CptButton action="+" content={compteur + 1} set={setCompteur} />
+    </div> ) : (
+        <div>Chargement</div>
+      )
   );
 }
 
